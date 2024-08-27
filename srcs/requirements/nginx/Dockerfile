@@ -7,7 +7,7 @@ RUN apt update && apt upgrade -y
 RUN apt install -y nginx openssl
 
 RUN mkdir -p /etc/nginx/ssl
-
+RUN chmod 777 /etc/nginx/ssl
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout /etc/nginx/ssl/inception.key \
     -out /etc/nginx/ssl/inception.crt \
@@ -19,7 +19,7 @@ RUN chmod 777 /var/www/html/wordpress
 RUN chown -R www-data:www-data /var/www/html/wordpress
 
 # copy the nginx configuration file to container
-COPY ./conf/nginx.conf /etc/nginx/conf.d/
+COPY ./conf/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 EXPOSE 443
 # EXPOSE 80
