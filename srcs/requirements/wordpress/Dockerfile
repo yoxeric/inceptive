@@ -1,17 +1,12 @@
 FROM debian:bullseye
 
-RUN apt update && apt upgrade -y
+RUN apt-get update && apt-get upgrade -y
 
-RUN apt install -y php php-fpm php-mysql curl mariadb-client
-
-# COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
-
-# COPY ./conf/wp-config.php /var/www/html/wordpress/
+RUN apt-get install -y php php-fpm php-mysql curl mariadb-client
 
 EXPOSE 9000
 
-COPY ./tools/setup.sh /
-RUN chmod +x /setup.sh
-ENTRYPOINT ["sh" , "/setup.sh"]
+COPY ./tools/setup_wp.sh /
+RUN chmod +x /setup_wp.sh
 
-# CMD ["/usr/sbin/php-fpm7.4", "-F"]
+CMD ["sh" , "/setup_wp.sh"]

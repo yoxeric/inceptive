@@ -1,7 +1,7 @@
 FROM debian:bullseye
 
-RUN apt update && apt upgrade -y
-RUN apt install -y mariadb-server
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y mariadb-server
 
 RUN mkdir -p /var/run/mysqld
 RUN mkdir -p /var/lib/mysqld
@@ -11,9 +11,7 @@ RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
 EXPOSE 3306
 
-# ADD /tools/db.sh
-COPY /tools/db.sh /
-RUN chmod +x /db.sh
-ENTRYPOINT ["sh", "/db.sh"]
+COPY /tools/setup_db.sh /
+RUN chmod +x /setup_db.sh
 
-# USER mysql
+CMD ["sh", "/setup_db.sh"]
